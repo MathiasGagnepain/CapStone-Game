@@ -10,6 +10,8 @@ int main()
 {
     struct Player player = {8, 8};
     int mapBuffer[mapHeight][mapWidth];
+
+    mobsGeneration();
     createMapBuffer(&player, map, mapBuffer);
 
     gameRuntime(&player, mapBuffer);
@@ -27,6 +29,8 @@ void createMapBuffer(struct Player *player, int map[mapHeight][mapWidth], int ma
 
 void gameRuntime(struct Player *player, int mapBuffer[mapHeight][mapWidth])
 {
+    // printf("\e[1;1H\e[2J");
+
     for (int i = 0; i < player->inventory.slot; ++i){
         int result = strcmp(player->inventory.items[i], "handmap");
         if (result == 0){
@@ -147,7 +151,23 @@ void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
                 map[player->y][player->x] = 1;
             }
         } else if (nextTile == 8){
-            printf("boss area");
+            savedPlayerPos[0] = player->y;
+            savedPlayerPos[1] = player->x;
+
+            if (player->x == 15 && player->y == 8 ){
+                player->x = 1;
+                player->y = 11;
+
+            } else {
+                player->x = 15;
+                player->y = 8;
+            }
+
+            mapBuffer[player->y][player->x] = 0;
+            mapBuffer[savedPlayerPos[0]][savedPlayerPos[1]] = map[savedPlayerPos[0]][savedPlayerPos[1]];
+            if (player->x == 1 && player->y == 17 ){
+                map[player->y][player->x] = 1;
+            }
         }
     } else {
        player->y = savedPlayerPos[0];
@@ -177,7 +197,24 @@ void collectItem(struct Player *player){
 }
 
 void mobsGeneration(){
+    srand(time(NULL));
+    int min = 0;
+    int max = 100;
 
+    for (int i = 0; i < mapHeight; ++i)
+    {
+        for (int j = 0; j < mapWidth; ++j)
+        {
+            if (map[i][j] == 1)
+            {
+                int spawnChance = rand() % (max - min + 1) + min;
+                if (spawnChance <= MOBS_SPAWN_RATE)
+                {
+                    map[i][j] = 11;
+                }
+            }
+        }
+    }
 }
 
 void rdmTp(struct Player *player){
