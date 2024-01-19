@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "config.h": "c",
-        "main.h": "c",
-        "map": "c",
-        "stdlib.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
-}
