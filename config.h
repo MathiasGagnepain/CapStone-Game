@@ -5,7 +5,7 @@
 // DON'T TOUCH IF YOU DON'T KNOW WHAT YOU ARE DOING
 const int mapWidth = 20;
 const int mapHeight = 20;
-int hasMap = 1;
+int hasMap = 0;
 
 // 0 = Player
 // 1 = Path

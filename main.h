@@ -5,6 +5,7 @@ typedef struct Inventory {
 
 typedef struct Player {
     // player position
+    int hp;
     int x;
     int y;
     inventory_t inventory;
@@ -16,4 +17,5 @@ void gameRuntime(struct Player *player, int mapBuffer[mapHeight][mapWidth]);
 void createMapBuffer(struct Player *player, int map[mapHeight][mapWidth], int mapBuffer[mapHeight][mapWidth]);
 void collectItem(struct Player *player);
 void mobsGeneration();
+void displayInv(struct Player *player);
 void rdmTp(struct Player *player);

@@ -8,7 +8,7 @@
 
 int main()
 {
-    struct Player player = {8, 8};
+    struct Player player = {100, 8, 8};
     int mapBuffer[mapHeight][mapWidth];
 
     mobsGeneration();
@@ -29,17 +29,14 @@ void createMapBuffer(struct Player *player, int map[mapHeight][mapWidth], int ma
 
 void gameRuntime(struct Player *player, int mapBuffer[mapHeight][mapWidth])
 {
-    // printf("\e[1;1H\e[2J");
+    printf("\e[1;1H\e[2J");
 
-    for (int i = 0; i < player->inventory.slot; ++i){
-        int result = strcmp(player->inventory.items[i], "handmap");
-        if (result == 0){
-            hasMap = 1;
-        }
-    }
+   
 
     drawMap(mapBuffer);
     
+    displayInv(player);
+
     movePlayer(player, mapBuffer);
 }
 
@@ -99,10 +96,27 @@ void drawMap(int mapBuffer[mapHeight][mapWidth])
     }
 }
 
+void displayInv(struct Player *player)
+{
+    printf("\n--------------------\n");
+    printf("\nYour inventory: \n\n");
+    for (int i = 0; i < player->inventory.slot; ++i){
+        int result = strcmp(player->inventory.items[i], "handmap");
+        if (result == 0){
+            hasMap = 1;
+        }
+
+        printf("[%d] - %s\n", i, player->inventory.items[i]);
+    }
+    printf("\n--------------------\n");
+}
+
 void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
 {
     char keyPressed;
-    printf("Choose a direction: ");
+    printf("Z = Up | S = Down | Q = Left | D = Right");
+    printf("\n--------------------\n");
+    printf("Choose a action: ");
     scanf(" %c", &keyPressed);
 
     // 1 - Left
@@ -111,27 +125,31 @@ void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
     // 4 = Down
     int savedPlayerPos[2] = {player->y, player->x};
 
-    if( keyPressed == 'Q' || keyPressed == 'q'){
-        printf("player moved to left");
-        --player->x;
-    }
-    else  if( keyPressed == 'Z' || keyPressed == 'z')
+    switch (keyPressed)
     {
-        printf("player moved to up");
-        --player->y;
-    }
-    else  if( keyPressed == 'D' || keyPressed == 'd')
-    {
-        printf("player moved to right");
-        ++player->x;
-    }
-    else  if( keyPressed == 'S' || keyPressed == 's')
-    {
-        printf("player moved to down");
-        ++player->y;
-    }
-    else {
-        printf("invalide action");
+        case 'Q':
+        case 'q':
+            --player->x;
+            break;
+
+        case 'Z':
+        case 'z':
+            --player->y;
+            break;
+
+        case 'D':
+        case 'd':
+            ++player->x;
+            break;
+
+        case 'S':
+        case 's':
+            ++player->y;
+            break;
+        
+        default:
+            printf("action not found !");
+            break;
     }
 
     int nextTile = mapBuffer[player->y][player->x];
