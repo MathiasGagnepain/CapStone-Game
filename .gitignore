@@ -1,0 +1,19 @@
+# Ignore compiled files
+*.o
+*.out
+*.exe
+
+# Ignore temporary files
+*.tmp
+*.log
+
+# Ignore build directories
+/build/
+/dist/
+
+# Ignore configuration files with sensitive information
+config.ini
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
