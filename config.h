@@ -1,6 +1,11 @@
 #define INVENTORY_SIZE 20
 #define ITEM_NAME_LENGTH 30
+#define PLAYER_DAMAGE 5
 #define MOBS_SPAWN_RATE 10 // percentage
+#define MOBS_HEALTH_POINTS 10
+#define MOBS_DAMAGE 5
+#define BOSS_HEALTH_POINTS 500
+#define BOSS_DAMAGE 20
 
 // DON'T TOUCH IF YOU DON'T KNOW WHAT YOU ARE DOING
 const int mapWidth = 20;
