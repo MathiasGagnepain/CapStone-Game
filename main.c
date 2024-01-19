@@ -77,8 +77,10 @@ void drawMap(int mapBuffer[mapHeight][mapWidth])
                         printf(" ☢ ");
                         break;
                     case 10:
-                        
                             printf("███");
+                        break;
+                    case 11:
+                            printf("   ");
                         break;
                     default:
                         printf("XXX");
@@ -161,4 +163,8 @@ void collectItem(struct Player *player){
         ++player->inventory.slot;
         printf("you loot: %s", newItem);
     }
+}
+
+void mobsGeneration(){
+
 }
