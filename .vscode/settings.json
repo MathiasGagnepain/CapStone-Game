@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "config.h": "c",
+        "main.h": "c",
+        "map": "c",
+        "stdlib.h": "c"
+    }
+}
