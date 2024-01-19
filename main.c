@@ -81,7 +81,7 @@ void drawMap(int mapBuffer[mapHeight][mapWidth])
                             printf("███");
                         break;
                     case 11:
-                            printf(" X ");
+                            printf("   ");
                         break;
                     default:
                         printf("XXX");
@@ -218,6 +218,8 @@ void collectItem(struct Player *player){
 
 void startFight(struct Player *player)
 {
+    int mobsHP = MOBS_HEALTH_POINTS;
+    int mobsDamage = MOBS_DAMAGE;
     int inFight = 1;
     srand(time(NULL));
     while (inFight){
@@ -239,9 +241,19 @@ void startFight(struct Player *player)
             if (choice == mobChoice + '0')
              {
                 printf("You hurt him\n\n");
+                mobsHP = mobsHP - PLAYER_DAMAGE;
+
+                if (mobsHP <= 0){
+                    map[player->y][player->x] = 1;
+                    inFight = 0;
+                    printf("YOU KILLED HIM !\n");
+
+                    printf("Press a key to continue");
+                    scanf(" %c", &choice);
+                }
              } else {
                 printf("You has been hurt\n\n");
-                player->hp = player->hp - MOBS_DAMAGE;
+                player->hp = player->hp - mobsDamage;
              }
             break;
         case '2':
@@ -254,7 +266,7 @@ void startFight(struct Player *player)
                 inFight = 0;
             }else{
                 printf("You has been hurt\n\n");
-                player->hp = player->hp - MOBS_DAMAGE;
+                player->hp = player->hp - mobsDamage;
             }
             break;
         default:
@@ -338,15 +350,3 @@ void rdmTp(struct Player *player){
         }
     }
 }
-
-
-// TO DO
-/*
-on fight give 2 action possible:
-1 - Fight
-2 - Flee
-
-choose a number between 1 and 3:
-    - if same number of the mobs you win
-    - if you pick another number you lose
-*/
