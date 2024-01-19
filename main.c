@@ -81,7 +81,7 @@ void drawMap(int mapBuffer[mapHeight][mapWidth])
                             printf("███");
                         break;
                     case 11:
-                            printf("   ");
+                            printf(" X ");
                         break;
                     default:
                         printf("XXX");
@@ -186,6 +186,8 @@ void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
             if (player->x == 1 && player->y == 17 ){
                 map[player->y][player->x] = 1;
             }
+        } else if (nextTile == 11){
+            startFight(player);
         }
     } else {
        player->y = savedPlayerPos[0];
@@ -211,6 +213,62 @@ void collectItem(struct Player *player){
         player->inventory.items[player->inventory.slot][ITEM_NAME_LENGTH - 1] = "\0";
         ++player->inventory.slot;
         printf("you loot: %s", newItem);
+    }
+}
+
+void startFight(struct Player *player)
+{
+    int inFight = 1;
+    srand(time(NULL));
+    while (inFight){
+        char choice;
+        int min = 1;
+        int max = 3;
+        int mobChoice = rand() % (max - min + 1) + min;
+
+        printf("[1] - Fight\n");
+        printf("[2] - Flee\n");
+        printf("Choose an action: ");
+        scanf(" %c", &choice);
+        switch (choice)
+        {
+        case '1':
+            printf("Choose a number between 1 and 3: ");
+            scanf(" %c", &choice);
+            printf("the creature did %d\n", mobChoice);
+            if (choice == mobChoice + '0')
+             {
+                printf("You hurt him\n\n");
+             } else {
+                printf("You has been hurt\n\n");
+                player->hp = player->hp - MOBS_DAMAGE;
+             }
+            break;
+        case '2':
+            printf("Choose a number between 1 and 3: ");
+            scanf(" %c", &choice);
+            printf("the creature did %d\n", mobChoice);
+            if (choice == mobChoice + '0')
+            {
+                printf("You flee him\n\n");
+                inFight = 0;
+            }else{
+                printf("You has been hurt\n\n");
+                player->hp = player->hp - MOBS_DAMAGE;
+            }
+            break;
+        default:
+            break;
+        }
+
+        if (player->hp <= 0) {
+            inFight = 0;
+            printf("YOU ARE DEAD !!!\n");
+
+            printf("Press a key to restart");
+            scanf(" %c", &choice);
+            main();
+        }
     }
 }
 
