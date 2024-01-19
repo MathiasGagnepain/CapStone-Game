@@ -10,7 +10,7 @@ typedef struct Player {
     inventory_t inventory;
 } player_t;
 
-void drawMap(int mapBuffer[20][20]);
-void movePlayer(struct Player *player, int mapBuffer[20][20]);
-void gameRuntime(struct Player *player, int mapBuffer[20][20]);
-void createMapBuffer(struct Player *player, int map[20][20], int mapBuffer[20][20]);
+void drawMap(int mapBuffer[mapHeight][mapWidth]);
+void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth]);
+void gameRuntime(struct Player *player, int mapBuffer[mapHeight][mapWidth]);
+void createMapBuffer(struct Player *player, int map[mapHeight][mapWidth], int mapBuffer[mapHeight][mapWidth]);
