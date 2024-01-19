@@ -131,12 +131,23 @@ void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
     }
 
     int nextTile = mapBuffer[player->y][player->x];
-    if(nextTile == 1 || nextTile == 3 || nextTile == 4 || nextTile == 6 || nextTile == 2){
+    if(nextTile == 1 || nextTile == 3 || nextTile == 4 || nextTile == 6 || nextTile == 2 || nextTile == 7 || nextTile == 8 || nextTile == 5 || nextTile == 11){
         mapBuffer[player->y][player->x] = 0;
         mapBuffer[savedPlayerPos[0]][savedPlayerPos[1]] = map[savedPlayerPos[0]][savedPlayerPos[1]];
         if (nextTile == 2) {
             map[player->y][player->x] = 1;
             collectItem(player);
+        } else if (nextTile == 7) {
+            savedPlayerPos[0] = player->y;
+            savedPlayerPos[1] = player->x;
+            rdmTp(player);
+            mapBuffer[player->y][player->x] = 0;
+            mapBuffer[savedPlayerPos[0]][savedPlayerPos[1]] = map[savedPlayerPos[0]][savedPlayerPos[1]];
+            if (player->x == 1 && player->y == 17 ){
+                map[player->y][player->x] = 1;
+            }
+        } else if (nextTile == 8){
+            printf("boss area");
         }
     } else {
        player->y = savedPlayerPos[0];
@@ -168,3 +179,61 @@ void collectItem(struct Player *player){
 void mobsGeneration(){
 
 }
+
+void rdmTp(struct Player *player){
+    int min = 1;
+    int max = 4;
+    int validTP = 0;
+    srand(time(NULL));
+
+    while (!validTP) {
+        int tpNum = rand() % (max - min + 1) + min;
+
+        switch (tpNum)
+        {
+        case 1:
+            if (player->x != 8 && player->y != 8)
+            {
+                validTP = 1;
+                player->x = 8;
+                player->y = 8;
+            }
+            break;
+        case 2:
+            if (player->x != 10 && player->y != 2)
+            {
+                validTP = 1;
+                player->x = 10;
+                player->y = 2;
+            }
+            break;
+        case 3:
+            if (player->x != 7 && player->y != 13)
+            {
+                validTP = 1;
+                player->x = 7;
+                player->y = 13;
+            }
+            break;
+        case 4:
+            if (player->x != 1 && player->y != 17)
+            {
+                validTP = 1;
+                player->x = 1;
+                player->y = 17;
+            }  
+        }
+    }
+}
+
+
+// TO DO
+/*
+on fight give 2 action possible:
+1 - Fight
+2 - Flee
+
+choose a number between 1 and 3:
+    - if same number of the mobs you win
+    - if you pick another number you lose
+*/
