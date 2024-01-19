@@ -1,5 +1,8 @@
+#define INVENTORY_SIZE 20
+#define ITEM_NAME_LENGTH 30
 const int mapWidth = 20;
 const int mapHeight = 20;
+int hasMap = 0;
 // 0 = Player
 // 1 = Path
 // 2 = Loot

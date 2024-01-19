@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "config.h"
 #include "main.h"
 
@@ -26,7 +27,13 @@ void createMapBuffer(struct Player *player, int map[mapHeight][mapWidth], int ma
 
 void gameRuntime(struct Player *player, int mapBuffer[mapHeight][mapWidth])
 {
-    
+    for (int i = 0; i < player->inventory.slot; ++i){
+        int result = strcmp(player->inventory.items[i], "handmap");
+        if (result == 0){
+            hasMap = 1;
+        }
+    }
+
     drawMap(mapBuffer);
     
     movePlayer(player, mapBuffer);
@@ -34,7 +41,6 @@ void gameRuntime(struct Player *player, int mapBuffer[mapHeight][mapWidth])
 
 void drawMap(int mapBuffer[mapHeight][mapWidth])
 {
-    int hasMap = 1;
     for(int i = 0;i < mapHeight;i++){
 
         for(int j = 0;j < mapWidth;j++){
@@ -123,9 +129,13 @@ void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
     }
 
     int nextTile = mapBuffer[player->y][player->x];
-    if(nextTile == 1 || nextTile == 3 || nextTile == 4 || nextTile == 6 ){
+    if(nextTile == 1 || nextTile == 3 || nextTile == 4 || nextTile == 6 || nextTile == 2){
         mapBuffer[player->y][player->x] = 0;
         mapBuffer[savedPlayerPos[0]][savedPlayerPos[1]] = map[savedPlayerPos[0]][savedPlayerPos[1]];
+        if (nextTile == 2) {
+            map[player->y][player->x] = 1;
+            collectItem(player);
+        }
     } else {
        player->y = savedPlayerPos[0];
        player->x = savedPlayerPos[1];
@@ -136,4 +146,19 @@ void movePlayer(struct Player *player, int mapBuffer[mapHeight][mapWidth])
     printf("\n%d", player->y);
     printf("\n");
     gameRuntime(player, mapBuffer);
+}
+
+void collectItem(struct Player *player){
+    char newItem[ITEM_NAME_LENGTH];
+    if (player->x == 17 && player->y == 1 ){
+        strncpy(newItem, "handmap", ITEM_NAME_LENGTH - 1);
+        newItem[ITEM_NAME_LENGTH - 1] = '\0';
+    }
+
+    if (newItem != NULL){
+        strncpy(player->inventory.items[player->inventory.slot], newItem, ITEM_NAME_LENGTH - 1);
+        player->inventory.items[player->inventory.slot][ITEM_NAME_LENGTH - 1] = "\0";
+        ++player->inventory.slot;
+        printf("you loot: %s", newItem);
+    }
 }
