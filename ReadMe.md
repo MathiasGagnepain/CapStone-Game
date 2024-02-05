@@ -12,3 +12,5 @@ For now it's impossible to complete the game but if you clear all the corridor o
 - ■ - Teleporter
 - N - NPC (NOT IMPLEMENTED YET)
 - ☢ - Final Boss (NOT IMPLEMENTED YET)
+
+![Alt](https://repobeats.axiom.co/api/embed/aa830137e213d40b9a261b879bc4320dd5ac2f58.svg "Repobeats analytics image")
